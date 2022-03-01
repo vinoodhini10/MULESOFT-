@@ -1,0 +1,179 @@
+//1. CREATING A DATABASE:
+package net.codejava;
+import java.sql.*;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class SQLiteMuleSoft {
+	
+	public static void createNewDatabase(String filename) {  
+		   
+        String url = "jdbc:sqlite:/D:\\6th SEM\\sqlite-tools-win32-x86-3380000"+filename;  
+   
+        try {  
+            Connection conn = DriverManager.getConnection(url);  
+            if (conn != null) {  
+                DatabaseMetaData meta = conn.getMetaData();  
+                System.out.println("The driver name is " + meta.getDriverName());  
+                System.out.println("A new database has been created.");  
+            }  
+   
+        } catch (SQLException e) {  
+            System.out.println(e.getMessage());  
+            
+        }
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		 createNewDatabase("Movies.db");  
+		
+
+	}
+
+}
+ 
+ 
+
+
+//2. CREATING TABLE:
+package net.codejava;
+import java.sql.*;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class SQLiteMuleSoft {
+	
+	public static void createNewTable() {  
+		   
+        String url = "jdbc:sqlite:/D:\\6th SEM\\sqlite-tools-win32-x86-3380000\\Movies.db";  
+        String sql = "create table MuleSoftmovies(id int primary key,"
+                + "name varchar(20), actor varchar(20),actress varchar(20),year int, director varchar(20))";
+   
+        try{  
+            Connection conn = DriverManager.getConnection(url);  
+            Statement stmt = conn.createStatement();  
+            boolean b=stmt.execute(sql);  
+            System.out.println("Table Created Successfully");
+        } catch (SQLException e) {  
+            System.out.println(e.getMessage());  
+        }  
+    }  
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		createNewTable();    
+	}
+}
+ 
+
+//3. INSERTION OF RECORDS:
+package net.codejava;
+import java.sql.Connection;  
+import java.sql.DriverManager;  
+import java.sql.PreparedStatement;  
+import java.sql.SQLException;  
+   
+public class SQLiteMuleSoft {  
+   
+    private Connection connect() {  
+        // SQLite connection string  
+        String url = "jdbc:sqlite:D://6th SEM/sqlite-tools-win32-x86-3380000/Movies.db";  
+        Connection conn = null;  
+        try {  
+            conn = DriverManager.getConnection(url);  
+        } catch (SQLException e) {  
+            System.out.println(e.getMessage());  
+        }  
+        return conn;  
+    }  
+   
+  
+    public void insert(int id,String name, String actor,String actress, int year, String director) {  
+        String sql = "INSERT INTO MuleSoftmovies(id,name,actor,actress,year,director) VALUES(?,?,?,?,?,?)";  
+   
+        try{  
+            Connection conn = this.connect();  
+            PreparedStatement pstmt = conn.prepareStatement(sql);  
+            pstmt.setInt(1,id);
+            pstmt.setString(2, name);  
+            pstmt.setString(3,actor); 
+            pstmt.setString(4,actress);
+            pstmt.setInt(5,year);
+            pstmt.setString(6,director);
+            
+            pstmt.executeUpdate();
+            System.out.println("Inserted the records");
+        } catch (SQLException e) {  
+            System.out.println(e.getMessage());  
+        }  
+    }  
+   
+    public static void main(String[] args) {  
+   
+        SQLiteMuleSoft app = new SQLiteMuleSoft();  
+        // insert three new rows  
+        app.insert(4,"Avengers", "RDJ","Scarlett",2019,"Shawn");  
+        app.insert(5,"Spiderman No way Home","Tom Holland","Zendaya",2020,"Rick Riordan");  
+        app.insert(6,"Twilight","Robert Pattinson","Kristen Stewart ",2008,"Annabelle");  
+    }  
+   
+}
+ 
+
+//4) RETRIEVAL:
+package net.codejava;
+import java.sql.DriverManager;  
+import java.sql.Connection;  
+import java.sql.ResultSet;  
+import java.sql.SQLException;  
+import java.sql.Statement;  
+   
+public class SQLiteMuleSoft {  
+   
+    private Connection connect() {  
+        // SQLite connection string  
+        String url = "jdbc:sqlite:D://6th SEM/sqlite-tools-win32-x86-3380000/Movies.db";  
+        Connection conn = null;  
+        try {  
+            conn = DriverManager.getConnection(url);  
+        } catch (SQLException e) {  
+            System.out.println(e.getMessage());  
+        }  
+        return conn;  
+    }  
+    public void selectAll(){  
+        String sql = "SELECT * FROM MuleSoftmovies";  
+          
+        try {  
+            Connection conn = this.connect();  
+            Statement stmt  = conn.createStatement();  
+            ResultSet rs    = stmt.executeQuery(sql);  
+              
+            // loop through the result set  
+            while (rs.next()) {  
+                System.out.println(rs.getInt("id") +  "\t" +   
+                                   rs.getString("name") + "\t" +  
+                                   rs.getString("actor")+ "\t" +
+                                   rs.getString("actress") + "\t" +
+                                   rs.getInt("year") + "\t"+
+                                   rs.getString("director"));  
+            }  
+        } catch (SQLException e) {  
+            System.out.println(e.getMessage());  
+        }  
+    }  
+    public static void main(String[] args) {  
+        SQLiteMuleSoft app = new SQLiteMuleSoft();  
+        app.selectAll();  
+    }  
+   
+}  
+
+ 
+
+
