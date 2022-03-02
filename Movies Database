@@ -174,6 +174,150 @@ public class SQLiteMuleSoft {
    
 }  
 
- 
+//5) RETREIVING DATA BASED ON THE YEAR:
+package net.codejava;
+import java.sql.DriverManager;  
+import java.sql.Connection;  
+import java.sql.ResultSet;  
+import java.sql.SQLException;  
+import java.sql.Statement;  
+   
+public class SQLiteMuleSoft {  
+   
+    private Connection connect() {  
+        // SQLite connection string  
+        String url = "jdbc:sqlite:D://6th SEM/sqlite-tools-win32-x86-3380000/Movies.db";  
+        Connection conn = null;  
+        try {  
+            conn = DriverManager.getConnection(url);  
+        } catch (SQLException e) {  
+            System.out.println(e.getMessage());  
+        }  
+        return conn;  
+    }  
+    public void selectAll(){  
+        String sql = "SELECT * FROM MuleSoftmovies where year>2010";  
+          
+        try {  
+            Connection conn = this.connect();  
+            Statement stmt  = conn.createStatement();  
+            ResultSet rs    = stmt.executeQuery(sql);  
+              
+            // loop through the result set  
+            while (rs.next()) {  
+                System.out.println(rs.getInt("id") +  "\t" +   
+                                   rs.getString("name") + "\t" +  
+                                   rs.getString("actor")+ "\t" +
+                                   rs.getString("actress") + "\t" +
+                                   rs.getInt("year") + "\t"+
+                                   rs.getString("director"));  
+            }  
+        } catch (SQLException e) {  
+            System.out.println(e.getMessage());  
+        }  
+    }  
+    public static void main(String[] args) {  
+        SQLiteMuleSoft app = new SQLiteMuleSoft();  
+        app.selectAll();  
+    }  
+   
+}  
+
+//6) RETRIEVING DATA BASED ON THE ACTOR:
+package net.codejava;
+import java.sql.DriverManager;  
+import java.sql.Connection;  
+import java.sql.ResultSet;  
+import java.sql.SQLException;  
+import java.sql.Statement;  
+   
+public class SQLiteMuleSoft {  
+   
+    private Connection connect() {  
+        // SQLite connection string  
+        String url = "jdbc:sqlite:D://6th SEM/sqlite-tools-win32-x86-3380000/Movies.db";  
+        Connection conn = null;  
+        try {  
+            conn = DriverManager.getConnection(url);  
+        } catch (SQLException e) {  
+            System.out.println(e.getMessage());  
+        }  
+        return conn;  
+    }  
+    public void selectAll(){  
+        String sql = "SELECT * FROM MuleSoftmovies where actor like 'T%'";  
+          
+        try {  
+            Connection conn = this.connect();  
+            Statement stmt  = conn.createStatement();  
+            ResultSet rs    = stmt.executeQuery(sql);  
+              
+            // loop through the result set  
+            while (rs.next()) {  
+                System.out.println(rs.getInt("id") +  "\t" +   
+                                   rs.getString("name") + "\t" +  
+                                   rs.getString("actor")+ "\t" +
+                                   rs.getString("actress") + "\t" +
+                                   rs.getInt("year") + "\t"+
+                                   rs.getString("director"));  
+            }  
+        } catch (SQLException e) {  
+            System.out.println(e.getMessage());  
+        }  
+    }  
+    public static void main(String[] args) {  
+        SQLiteMuleSoft app = new SQLiteMuleSoft();  
+        app.selectAll();  
+    }  
+   
+}  
+//6) GROUPING DATA BY NAME OF MOVIES AND ORDERING BY YEAR:
+package net.codejava;
+import java.sql.DriverManager;  
+import java.sql.Connection;  
+import java.sql.ResultSet;  
+import java.sql.SQLException;  
+import java.sql.Statement;  
+   
+public class SQLiteMuleSoft {  
+   
+    private Connection connect() {  
+        // SQLite connection string  
+        String url = "jdbc:sqlite:D://6th SEM/sqlite-tools-win32-x86-3380000/Movies.db";  
+        Connection conn = null;  
+        try {  
+            conn = DriverManager.getConnection(url);  
+        } catch (SQLException e) {  
+            System.out.println(e.getMessage());  
+        }  
+        return conn;  
+    }  
+    public void selectAll(){  
+        String sql = "SELECT * FROM MuleSoftmovies Group By name Order by year";  
+          
+        try {  
+            Connection conn = this.connect();  
+            Statement stmt  = conn.createStatement();  
+            ResultSet rs    = stmt.executeQuery(sql);  
+              
+            // loop through the result set  
+            while (rs.next()) {  
+                System.out.println(rs.getInt("id") +  "\t" +   
+                                   rs.getString("name") + "\t" +  
+                                   rs.getString("actor")+ "\t" +
+                                   rs.getString("actress") + "\t" +
+                                   rs.getInt("year") + "\t"+
+                                   rs.getString("director"));  
+            }  
+        } catch (SQLException e) {  
+            System.out.println(e.getMessage());  
+        }  
+    }  
+    public static void main(String[] args) {  
+        SQLiteMuleSoft app = new SQLiteMuleSoft();  
+        app.selectAll();  
+    }  
+   
+}  
 
 
